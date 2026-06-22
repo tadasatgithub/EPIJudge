@@ -17,37 +17,74 @@ public class DeadlockDetection {
 
     public GraphVertex() { edges = new ArrayList<>(); }
   }
-
-  public static boolean isDeadlocked(List<GraphVertex> graph) {
-    Queue<GraphVertex> queue = new LinkedList<>();
-    Set<GraphVertex> visited = new HashSet<>();
-    Set<GraphVertex> visiting;
+  
+  // This is BFS
+  // public static boolean isDeadlocked(List<GraphVertex> graph) {
+  //   Queue<GraphVertex> queue = new LinkedList<>();
+  //   Set<GraphVertex> visited = new HashSet<>();
+  //   Set<GraphVertex> visiting;
     
-    for (GraphVertex vertex : graph) {
-      if (visited.contains(vertex)) {
+  //   for (GraphVertex vertex : graph) {
+  //     if (visited.contains(vertex)) {
+  //       continue;
+  //     }
+
+  //     visiting = new HashSet<>();
+  //     visiting.add(vertex);
+  //     queue.offer(vertex);
+    
+  //     while (!queue.isEmpty()) {
+  //         GraphVertex vert = queue.poll();
+
+  //         for (GraphVertex conn : vert.edges) {
+  //           if (visiting.contains(conn)) {
+  //             return true;
+  //           }
+  //           queue.offer(conn);
+  //           visiting.add(conn);
+  //         }
+
+  //         visited.add(vert);
+  //     }
+  //   }
+  //   return false;
+  // }
+
+  // This is DFS. You comment this and the following method and uncomment the above method to do BFS.
+  public static boolean isDeadlocked(List<GraphVertex> graph) {
+    Set<GraphVertex> visited = new HashSet<>();
+    Set<GraphVertex> visiting = new HashSet<>();
+    
+    for (GraphVertex vert : graph) {
+      if (visited.contains(vert)) {
         continue;
       }
-
-      visiting = new HashSet<>();
-      visiting.add(vertex);
-      queue.offer(vertex);
-    
-      while (!queue.isEmpty()) {
-          GraphVertex vert = queue.poll();
-
-          for (GraphVertex conn : vert.edges) {
-            if (visiting.contains(conn)) {
-              return true;
-            }
-            queue.offer(conn);
-            visiting.add(conn);
-          }
-
-          visited.add(vert);
-      }
+      visiting.add(vert);
+      boolean res = isDeadlocked_helper(vert, visiting, visited);
+      visited.add(vert);
+      visiting.remove(vert);
+      if (res) return res;
     }
+
+    return false;
+
+  }
+  public static boolean isDeadlocked_helper(GraphVertex vert, Set<GraphVertex> visiting, Set<GraphVertex> visited) {
+  
+    for (GraphVertex conn : vert.edges) {
+      if (visiting.contains(conn)) {
+        return true;
+      }
+      
+      visiting.add(conn);
+      boolean res = isDeadlocked_helper(conn, visiting, visited);
+      visiting.remove(conn);
+      if (res) return res;
+    }
+      
     return false;
   }
+
 
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class Edge {
