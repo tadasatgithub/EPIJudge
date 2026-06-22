@@ -4,9 +4,11 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
+import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Queue;
 public class SearchMaze {
   @EpiUserType(ctorParams = {int.class, int.class})
 
@@ -40,9 +42,73 @@ public class SearchMaze {
 
   public static List<Coordinate> searchMaze(List<List<Color>> maze,
                                             Coordinate s, Coordinate e) {
-    // TODO - you fill in here.
-    return Collections.emptyList();
+    int maxr = maze.size(); 
+    int maxc = maze.get(0).size();
+
+    int[][] track = new int[maxr][maxc];
+    Coordinate[][] parent = new Coordinate[maxr][maxc];
+    Queue<Coordinate> queue = new LinkedList<>();
+
+    int[][] directions = new int[][] { {-1, 0}, {1, 0}, {0, -1}, {0, 1}};                                            
+    
+    int cx = s.x;
+    int cy = s.y;
+  
+    queue.offer(s);
+    track[s.x][s.y] = 1;
+    parent[s.x][s.y] = new Coordinate(-1, -1);
+    boolean found = false;
+
+    while (!queue.isEmpty()) {
+      Coordinate cur = queue.poll();
+
+      for (int[] dir : directions) {
+        int nx = cur.x + dir[0];
+        int ny = cur.y + dir[1];
+
+        if (nx < 0 || nx >= maxr || ny < 0 || ny >= maxc || maze.get(nx).get(ny).equals(Color.BLACK) || track[nx][ny] != 0) {
+          continue;
+        }
+
+        parent[nx][ny] = new Coordinate(cur.x, cur.y);
+        track[nx][ny] = 1;
+
+        if (nx == e.x && ny == e.y) {
+          found = true;
+          break;
+        } 
+        queue.offer(new Coordinate(nx, ny));
+      }
+
+      if (found) {
+        break;
+      }
+
+      track[cur.x][cur.y] = 2;
+    }
+    List<Coordinate> res = new ArrayList<>();
+    if (!found) {
+      return res;
+    }
+    
+    while (e != s) {
+      //System.out.println("e.x : " + e.x + " e.y : " + e.y);
+      if (e == null || e.x < 0 || e.y < 0) break;
+      res.add(e);
+      e = parent[e.x][e.y];
+    }
+    
+    Collections.reverse(res);
+    //print(res);
+    return res;
   }
+
+  private static void print(List<Coordinate> path) {
+    for (Coordinate cor : path) {
+      System.out.println(cor.x + " " + cor.y);
+    }
+  }
+
   public static boolean pathElementIsFeasible(List<List<Integer>> maze,
                                               Coordinate prev, Coordinate cur) {
     if (!(0 <= cur.x && cur.x < maze.size() && 0 <= cur.y &&
