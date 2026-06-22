@@ -5,7 +5,11 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+import java.util.HashSet;
 public class DeadlockDetection {
 
   public static class GraphVertex {
@@ -15,9 +19,36 @@ public class DeadlockDetection {
   }
 
   public static boolean isDeadlocked(List<GraphVertex> graph) {
-    // TODO - you fill in here.
-    return true;
+    Queue<GraphVertex> queue = new LinkedList<>();
+    Set<GraphVertex> visited = new HashSet<>();
+    Set<GraphVertex> visiting;
+    
+    for (GraphVertex vertex : graph) {
+      if (visited.contains(vertex)) {
+        continue;
+      }
+
+      visiting = new HashSet<>();
+      visiting.add(vertex);
+      queue.offer(vertex);
+    
+      while (!queue.isEmpty()) {
+          GraphVertex vert = queue.poll();
+
+          for (GraphVertex conn : vert.edges) {
+            if (visiting.contains(conn)) {
+              return true;
+            }
+            queue.offer(conn);
+            visiting.add(conn);
+          }
+
+          visited.add(vert);
+      }
+    }
+    return false;
   }
+
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class Edge {
     public int from;
