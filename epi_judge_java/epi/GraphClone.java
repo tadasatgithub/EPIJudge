@@ -6,10 +6,13 @@ import epi.test_framework.TestFailure;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 public class GraphClone {
@@ -25,9 +28,66 @@ public class GraphClone {
   }
 
   public static GraphVertex cloneGraph(GraphVertex graph) {
-    // TODO - you fill in here.
-    return new GraphVertex(0);
+    Map<Integer, GraphVertex> map = new HashMap<>();
+    Queue<GraphVertex> queue = new LinkedList<>();
+    Set<GraphVertex> visited = new HashSet<>();
+
+    queue.offer(graph);
+    visited.add(graph);
+
+    //printNode(graph);
+    while (!queue.isEmpty()) {
+      //print(map);
+      GraphVertex old = queue.poll();
+      GraphVertex cur = map.get(old.label);
+
+      if (cur == null) {
+        cur = new GraphVertex(old.label);
+        map.put(old.label, cur);
+      }
+
+      for (GraphVertex vert : old.edges) {
+        GraphVertex newchild = map.get(vert.label);
+
+        if (newchild == null) {
+           newchild = new GraphVertex(vert.label);
+           map.put(vert.label, newchild);
+        }
+
+        cur.edges.add(newchild);
+        if (!visited.contains(vert)) {
+          queue.offer(vert);
+        }
+        visited.add(vert);
+      }
+
+      
+    }
+
+    return map.get(graph.label);
   }
+
+   private static void printNode(GraphVertex node) {
+    System.out.println();
+    System.out.print("Node : " + node.label + " children : ");
+    for (GraphVertex child : node.edges) {
+      System.out.print(child.label + ", ");
+    }
+    System.out.println();
+  }
+
+  private static void print(Map<Integer, GraphVertex> map) {
+    System.out.println();
+    for (Map.Entry<Integer, GraphVertex> entry : map.entrySet()) {
+      System.out.print("Node : " + entry.getKey() + " children : ");
+      for (GraphVertex child : entry.getValue().edges) {
+        System.out.print(child.label + ", ");
+      }
+      System.out.println();
+    }
+    
+  }
+
   private static List<Integer> copyLabels(List<GraphVertex> edges) {
     List<Integer> labels = new ArrayList<>();
     for (GraphVertex e : edges) {
