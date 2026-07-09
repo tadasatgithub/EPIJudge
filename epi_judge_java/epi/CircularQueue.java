@@ -4,26 +4,92 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
+import java.util.Arrays;
 import java.util.List;
 public class CircularQueue {
 
   public static class Queue {
-    public Queue(int capacity) {}
+    private int[] queue;
+    private int max;
+    private int front, rear;
+
+    public Queue(int capacity) {
+      //System.out.println("capacity : " + capacity);
+      max = capacity;
+      queue = new int[max];
+      front = rear = -1;
+    }
+
+    private boolean isFull() {
+      if (front == 0 && rear == max-1) {
+        return true;
+      }
+
+      return rear+1 == front;
+    }
+
+    private boolean isEmpty() {
+      return front == -1;
+    }
+
     public void enqueue(Integer x) {
-      // TODO - you fill in here.
-      return;
+      //System.out.println(" x : " + x + " max : " + max);
+      if (isFull()) {
+        queue = Arrays.copyOf(queue, 2*max);
+        //System.out.println("queue : " + queue.length);
+        int oldMax = max;
+        max = 2*max;
+
+        if (!(front==0 && rear == oldMax-1)) {
+          // copy over
+          int d=oldMax;
+          for (; d <= oldMax + (rear); d++) {
+            queue[d] = queue[d-oldMax];
+          }
+          rear = d-1;
+        }
+      }
+
+      if (isEmpty()) {
+        front = rear = 0;
+        queue[rear] = x;
+      } else {
+        rear = rear+1;
+        if (rear == max) {
+          rear = 0;
+        }
+        queue[rear] = x;
+      }
     }
     public Integer dequeue() {
-      // TODO - you fill in here.
-      return 0;
+      if (isEmpty()) {
+        return 0;
+      }
+      int value = queue[front];
+      if (front == rear) {
+        front = -1;
+        rear = -1;
+      } else {
+        front = front+1;
+        if (front == max) {
+          front = 0;
+        }
+      }
+      return value;
     }
     public int size() {
-      // TODO - you fill in here.
-      return 0;
+      if (isEmpty()) return 0;
+      if (isFull()) return max;
+      // System.out.println("front : " + front + " rear : " + rear + " max : " + max);
+      if (rear >= front) {
+        return rear-front+1;
+      } else {
+        return (max-front+rear+1);
+      }
+
     }
     @Override
     public String toString() {
-      // TODO - you fill in here.
       return super.toString();
     }
   }

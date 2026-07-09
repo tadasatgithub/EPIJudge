@@ -7,8 +7,23 @@ public class ElementAppearingOnce {
   @EpiTest(testDataFile = "element_appearing_once.tsv")
 
   public static int findElementAppearsOnce(List<Integer> A) {
-    // TODO - you fill in here.
-    return 0;
+    int[] count=new int[32];
+
+    for (Integer x : A) {
+      for (int p=0; p < 32; p++) {
+        if ((x & (1 << p)) == (1 << p)) {
+          count[p]++;
+        }
+      }
+    }
+
+    int single=0;
+    for (int p=0; p < 32; p++) {
+      if (count[p] % 3 != 0) {
+        single = single | (1 << p);
+      }
+    }
+    return single;
   }
 
   public static void main(String[] args) {

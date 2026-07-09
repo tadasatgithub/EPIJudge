@@ -20,9 +20,69 @@ public class IntervalsUnion {
   }
 
   public static List<Interval> unionOfIntervals(List<Interval> intervals) {
-    // TODO - you fill in here.
-    return Collections.emptyList();
+    // First get all the interval who does not have any operlap with the next interval;
+
+    intervals.sort((interval1, interval2) -> {
+      if (interval1.left.val != interval2.left.val) {
+        return interval1.left.val - interval2.left.val;
+      } else {
+        if (interval1.left.isClosed == interval2.left.isClosed) {
+          return 0;
+        } else if (interval1.left.isClosed) {
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+    });
+
+    List<Interval> result = new ArrayList<>();
+
+    Interval cur = intervals.getFirst();
+
+    for (int pos=1; pos < intervals.size(); pos++) {
+      Interval next = intervals.get(pos);
+
+      boolean overLapping = hasOverlapping(next, cur);
+
+      if (overLapping) {
+        cur = merge(next, cur);
+      } else {
+        result.add(cur);
+        cur = next;
+      }
+    }
+
+    result.add(cur);
+
+    return result;
   }
+
+  private static Interval merge(Interval next, Interval cur) {
+    Interval newInterval = new Interval();
+    newInterval.left.val = Math.min(cur.left.val, next.left.val);
+    newInterval.left.isClosed = cur.left.val < next.left.val ? cur.left.isClosed : (cur.left.val > next.left.val ? next.left.isClosed : (cur.left.isClosed || next.left.isClosed));
+
+    newInterval.right.val = Math.max(cur.right.val, next.right.val);
+    newInterval.right.isClosed = cur.right.val > next.right.val ? cur.right.isClosed : (cur.right.val < next.right.val ? next.right.isClosed : (cur.right.isClosed || next.right.isClosed));
+    return newInterval;
+  }
+  private static boolean hasOverlapping(Interval next, Interval cur) {
+    if (next.right.val > cur.left.val && cur.right.val > next.left.val) {
+      return true;
+    }
+
+    if (next.left.val == cur.right.val && next.right.val > cur.left.val && (next.left.isClosed || cur.right.isClosed)) {
+      return true;
+    }
+
+    if (next.right.val == cur.left.val && cur.right.val > next.left.val && (next.right.isClosed || cur.left.isClosed)) {
+      return true;
+    }
+
+    return false;
+  }
+
   @EpiUserType(
       ctorParams = {int.class, boolean.class, int.class, boolean.class})
   public static class FlatInterval {

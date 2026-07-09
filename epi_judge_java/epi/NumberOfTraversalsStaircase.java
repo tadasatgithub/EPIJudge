@@ -5,7 +5,8 @@ public class NumberOfTraversalsStaircase {
   @EpiTest(testDataFile = "number_of_traversals_staircase.tsv")
 
   public static int numberOfWaysToTop(int top, int maximumStep) {
-    // TODO - you fill in here.
+    int[][] dp = new int[maximumStep+1][top+1];
+
     return 0;
   }
 

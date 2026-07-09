@@ -5,11 +5,8 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
 public class GroupEqualEntries {
   @EpiUserType(ctorParams = {Integer.class, String.class})
 
@@ -44,8 +41,20 @@ public class GroupEqualEntries {
     }
   }
   public static void groupByAge(List<Person> people) {
-    // TODO - you fill in here.
-    return;
+    Map<Integer, List<Person>> map = new HashMap<>();
+
+    for (Person p : people) {
+      List<Person> sub =  map.getOrDefault(p.age, new ArrayList<>());
+      sub.add(p);
+      map.putIfAbsent(p.age, sub);
+    }
+    int pos=0;
+
+    for (Map.Entry<Integer, List<Person>> entry : map.entrySet()) {
+      for (Person p : entry.getValue()) {
+        people.set(pos++, p);
+      }
+    }
   }
   private static Map<Person, Integer> buildMultiset(List<Person> people) {
     Map<Person, Integer> m = new HashMap<>();

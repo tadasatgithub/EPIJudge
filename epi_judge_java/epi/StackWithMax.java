@@ -6,26 +6,47 @@ import epi.test_framework.TestFailure;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Stack;
+
 public class StackWithMax {
 
   public static class Stack {
+    private java.util.Stack<int[]> stack;
+
+    Stack() {
+      stack = new java.util.Stack<>();
+    }
+
     public boolean empty() {
-      // TODO - you fill in here.
-      return true;
+      return stack.isEmpty();
     }
+
     public Integer max() {
-      // TODO - you fill in here.
-      return 0;
+      if (stack.empty()) {
+        return 0;
+      }
+
+      return stack.peek()[1];
     }
+
     public Integer pop() {
-      // TODO - you fill in here.
-      return 0;
+      if (stack.empty()) {
+        return 0;
+      }
+      int[] e = stack.pop();
+      return e[0];
     }
+
     public void push(Integer x) {
-      // TODO - you fill in here.
+      int[] e = new int[2];
+      e[0] = x;
+      e[1] = Math.max(x, stack.empty() ? Integer.MIN_VALUE : stack.peek()[1]);
+      stack.push(e);
       return;
     }
   }
+
+
   @EpiUserType(ctorParams = {String.class, int.class})
   public static class StackOp {
     public String op;

@@ -43,8 +43,47 @@ public class IntervalAdd {
 
   public static List<Interval> addInterval(List<Interval> disjointIntervals,
                                            Interval newInterval) {
-    // TODO - you fill in here.
-    return null;
+    List<Interval> result = new ArrayList<>();
+    boolean foundOverlap = false;
+    for (int pos=0; pos < disjointIntervals.size(); pos++) {
+      Interval curInt = disjointIntervals.get(pos);
+
+      if (isBefore(curInt, newInterval)) {
+        result.add(curInt);
+      } else {
+        handleOverlap(disjointIntervals, pos, result, newInterval);
+        foundOverlap = true;
+        break;
+      }
+    }
+
+    if (!foundOverlap) {
+      result.add(newInterval);
+    }
+    return result;
+  }
+
+  private static void handleOverlap(List<Interval> dis, int pos, List<Interval> result, Interval newInt) {
+    for (int i=pos; i < dis.size(); i++) {
+      Interval cur = dis.get(i);
+
+      if (hasOverLap(cur, newInt)) {
+        newInt = new Interval(Math.min(cur.left, newInt.left), Math.max(cur.right, newInt.right));
+      } else {
+        result.add(newInt);
+        newInt = cur;
+      }
+    }
+
+    result.add(newInt);
+  }
+
+  private static boolean hasOverLap(Interval cur, Interval newInt) {
+    return cur.right >= newInt.left && newInt.right >= cur.left;
+  }
+
+  private static boolean isBefore(Interval curI, Interval newI) {
+    return curI.left < newI.left && curI.right < newI.left;
   }
 
   public static void main(String[] args) {

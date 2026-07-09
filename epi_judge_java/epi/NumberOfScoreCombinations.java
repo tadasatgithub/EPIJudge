@@ -9,8 +9,23 @@ public class NumberOfScoreCombinations {
   public static int
   numCombinationsForFinalScore(int finalScore,
                                List<Integer> individualPlayScores) {
-    // TODO - you fill in here.
-    return 0;
+    int[][] dp = new int[individualPlayScores.size()][1+finalScore];
+
+    for (int r=0; r < dp.length; r++) {
+      dp[r][0] = 1;
+    }
+
+    for (int c=1; c <= finalScore; c++) {
+      dp[0][c] = (c % individualPlayScores.getFirst()) == 0 ? 1 : 0;
+    }
+
+    for (int r=1; r < individualPlayScores.size(); r++) {
+      int score = individualPlayScores.get(r);
+      for (int c=1; c <= finalScore; c++) {
+        dp[r][c] = dp[r-1][c] + ((score <= c) ? dp[r][c-score] : 0);
+      }
+    }
+    return dp[individualPlayScores.size()-1][finalScore];
   }
 
   public static void main(String[] args) {

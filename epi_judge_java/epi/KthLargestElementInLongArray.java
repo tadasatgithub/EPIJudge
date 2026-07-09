@@ -4,12 +4,33 @@ import epi.test_framework.GenericTest;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.PriorityQueue;
+
 public class KthLargestElementInLongArray {
 
   public static int findKthLargestUnknownLength(Iterator<Integer> stream,
                                                 int k) {
-    // TODO - you fill in here.
-    return 0;
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+    int count=0;
+
+    while (stream.hasNext() && count < k) {
+      minHeap.add(stream.next());
+      count++;
+    }
+
+    while (stream.hasNext()) {
+      Integer item = stream.next();
+
+      if (!minHeap.isEmpty() && item > minHeap.peek()) {
+        minHeap.offer(item);
+
+        if (minHeap.size() > k) {
+          minHeap.poll();
+        }
+      }
+    }
+    return minHeap.peek();
   }
   @EpiTest(testDataFile = "kth_largest_element_in_long_array.tsv")
   public static int findKthLargestUnknownLengthWrapper(List<Integer> stream,

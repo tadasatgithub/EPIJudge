@@ -8,7 +8,22 @@ import java.util.List;
 public class RotateArray {
 
   public static void rotateArray(int rotateAmount, List<Integer> A) {
-    // TODO - you fill in here.
+    int len = A.size();
+    int k=rotateAmount % len;
+    int[] t = new int[k];
+
+    for (int i=0; i < k; i++) {
+     t[i] = A.get(len-k+i);
+    }
+
+    for (int i=len-k-1; i >= 0; i--) {
+      A.set(i+k, A.get(i));
+    }
+
+    for (int i=0; i < k; i++) {
+      A.set(i, t[i]);
+    }
+
     return;
   }
   @EpiTest(testDataFile = "rotate_array.tsv")

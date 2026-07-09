@@ -8,6 +8,30 @@ public class RookAttack {
 
   public static void rookAttack(List<List<Integer>> A) {
     // TODO - you fill in here.
+    List<int[]> rookPositions = new ArrayList<>();
+
+    int rc=A.size();
+    int cc=A.getFirst().size();
+
+    for (int r=0; r < rc; r++) {
+      for (int c=0; c < cc; c++) {
+        if (A.get(r).get(c) == 0) {
+          rookPositions.add(new int[] {r,c});
+        }
+      }
+    }
+
+    for (int[] rook : rookPositions) {
+      int rookRow = rook[0];
+      int rookCol = rook[1];
+
+      A.get(rookRow).replaceAll(ignored -> 0);
+
+      for (List<Integer> integers : A) {
+        integers.set(rookCol, 0);
+      }
+    }
+
     return;
   }
   @EpiTest(testDataFile = "rook_attack.tsv")

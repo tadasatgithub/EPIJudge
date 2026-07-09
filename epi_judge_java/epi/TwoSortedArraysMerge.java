@@ -7,7 +7,33 @@ public class TwoSortedArraysMerge {
 
   public static void mergeTwoSortedArrays(List<Integer> A, int m,
                                           List<Integer> B, int n) {
-    // TODO - you fill in here.
+    int pos=m+n-1;
+    int i=m-1, j=n-1;
+    while (i>=0 && j>=0) {
+      if (A.get(i) > B.get(j)) {
+        A.set(pos, A.get(i));
+        i--;
+        pos--;
+      } else if (A.get(i) < B.get(j)) {
+        A.set(pos, B.get(j));
+        j--;
+        pos--;
+      } else {
+        A.set(pos, A.get(i));
+        i--;
+        pos--;
+
+        A.set(pos, B.get(j));
+        j--;
+        pos--;
+      }
+    }
+
+    while (j >= 0) {
+      A.set(pos, B.get(j));
+      j--;
+      pos--;
+    }
     return;
   }
   @EpiTest(testDataFile = "two_sorted_arrays_merge.tsv")

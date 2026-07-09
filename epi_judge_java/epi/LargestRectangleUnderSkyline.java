@@ -7,7 +7,7 @@ public class LargestRectangleUnderSkyline {
   @EpiTest(testDataFile = "largest_rectangle_under_skyline.tsv")
 
   public static int calculateLargestRectangle(List<Integer> heights) {
-    // TODO - you fill in here.
+
     return 0;
   }
 

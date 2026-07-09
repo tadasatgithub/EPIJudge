@@ -4,6 +4,9 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +24,19 @@ class Team {
 
   public Team(List<Integer> height) {
     players =
-        height.stream().map(h -> new Player(h)).collect(Collectors.toList());
+        height.stream().map(Player::new).collect(Collectors.toList());
   }
 
   // Checks if team0 can be placed in front of team1.
   public static boolean validPlacementExists(Team team0, Team team1) {
-    // TODO - you fill in here.
+    Collections.sort(team0.players, Comparator.comparing(player -> player.height));
+    Collections.sort(team1.players, Comparator.comparing(player -> player.height));
+
+    for (int pos=0; pos < team0.players.size(); pos++) {
+      if (team0.players.get(pos).height.compareTo(team1.players.get(pos).height) >= 0) {
+        return false;
+      }
+    }
     return true;
   }
   private List<Player> players;
