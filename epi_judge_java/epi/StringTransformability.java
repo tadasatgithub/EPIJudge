@@ -6,7 +6,7 @@ import java.util.Set;
 public class StringTransformability {
   @EpiTest(testDataFile = "string_transformability.tsv")
   public static int transformString(Set<String> D, String s, String t) {
-    // TODO - you fill in here.
+    
     return 0;
   }
 

@@ -60,8 +60,6 @@ public class GraphClone {
         }
         visited.add(vert);
       }
-
-      
     }
 
     return map.get(graph.label);

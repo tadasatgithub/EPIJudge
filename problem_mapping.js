@@ -65,7 +65,7 @@ problem_mapping = {
                 "passed": 0,
                 "total": 10000
             },
-            "Python: closest_int_same_weight.py": { 
+            "Python: closest_int_same_weight.py": {
                 "passed": 0,
                 "total": 10000
             }
@@ -2476,7 +2476,7 @@ problem_mapping = {
                 "total": 50
             },
             "Java: MatrixConnectedRegions.java": {
-                "passed": 0,
+                "passed": 50,
                 "total": 50
             },
             "Python: matrix_connected_regions.py": {
@@ -2504,7 +2504,7 @@ problem_mapping = {
                 "total": 71
             },
             "Java: DeadlockDetection.java": {
-                "passed": 0,
+                "passed": 71,
                 "total": 71
             },
             "Python: deadlock_detection.py": {
@@ -2518,7 +2518,7 @@ problem_mapping = {
                 "total": 91
             },
             "Java: GraphClone.java": {
-                "passed": 0,
+                "passed": 91,
                 "total": 91
             },
             "Python: graph_clone.py": {
