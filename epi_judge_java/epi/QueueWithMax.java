@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class QueueWithMax {
+
   public void enqueue(Integer x) {
     // TODO - you fill in here.
     return;
