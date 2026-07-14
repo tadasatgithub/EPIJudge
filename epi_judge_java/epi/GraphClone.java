@@ -4,14 +4,8 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
+
 public class GraphClone {
 
   public static class GraphVertex {
@@ -25,9 +19,25 @@ public class GraphClone {
   }
 
   public static GraphVertex cloneGraph(GraphVertex graph) {
-    // TODO - you fill in here.
-    return new GraphVertex(0);
+    Map<Integer, GraphVertex> vertexMap = new HashMap<>();
+    return dfsClone(graph, vertexMap);
   }
+
+  private static GraphVertex dfsClone(GraphVertex cur, Map<Integer, GraphVertex> vertexMap) {
+    GraphVertex graphVertex = vertexMap.get(cur.label);
+    if (graphVertex != null) {
+      return graphVertex;
+    }
+    graphVertex = new GraphVertex(cur.label);
+    vertexMap.put(cur.label, graphVertex);
+
+    for (GraphVertex child : cur.edges) {
+      graphVertex.edges.add(dfsClone(child, vertexMap));
+    }
+
+    return graphVertex;
+  }
+
   private static List<Integer> copyLabels(List<GraphVertex> edges) {
     List<Integer> labels = new ArrayList<>();
     for (GraphVertex e : edges) {

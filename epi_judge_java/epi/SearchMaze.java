@@ -4,9 +4,8 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
 public class SearchMaze {
   @EpiUserType(ctorParams = {int.class, int.class})
 
@@ -40,9 +39,58 @@ public class SearchMaze {
 
   public static List<Coordinate> searchMaze(List<List<Color>> maze,
                                             Coordinate s, Coordinate e) {
-    // TODO - you fill in here.
+    List<Coordinate> res = new ArrayList<>();
+    Queue<Coordinate> queue = new LinkedList<>();
+    boolean[][] visited = new boolean[maze.size()][maze.getFirst().size()];
+    Coordinate[][] parents = new Coordinate[maze.size()][maze.getFirst().size()];
+    queue.offer(s);
+    visited[s.x][s.y] = true;
+    int[][] dir = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    boolean found = false;
+    parents[s.x][s.y] = null;
+
+    while (!queue.isEmpty()) {
+      Coordinate cur = queue.poll();
+
+      if (cur.x == e.x && cur.y == e.y) {
+        found = true;
+        break;
+      }
+
+      for (int[] d : dir) {
+        int nx = cur.x + d[0];
+        int ny = cur.y + d[1];
+
+        if (nx < 0 ||
+                nx >= maze.size() ||
+                ny < 0 ||
+                ny >= maze.get(nx).size() ||
+                maze.get(nx).get(ny) == Color.BLACK ||
+                visited[nx][ny]) {
+          continue;
+        }
+        parents[nx][ny] = cur;
+        visited[nx][ny] = true;
+        Coordinate nc = new Coordinate(nx, ny);
+        queue.offer(nc);
+      }
+    }
+
+    if (found) {
+      Coordinate parentCell = parents[e.x][e.y];
+      res.add(e);
+      while (parentCell != null) {
+        res.add(parentCell);
+        parentCell = parents[parentCell.x][parentCell.y];
+      }
+
+      return res.reversed();
+    }
+
     return Collections.emptyList();
   }
+
+  // private static boolean dfs()
   public static boolean pathElementIsFeasible(List<List<Integer>> maze,
                                               Coordinate prev, Coordinate cur) {
     if (!(0 <= cur.x && cur.x < maze.size() && 0 <= cur.y &&
