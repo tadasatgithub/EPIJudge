@@ -6,30 +6,31 @@ import epi.test_framework.GenericTest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 import java.util.function.BiPredicate;
 public class KLargestValuesInBst {
   @EpiTest(testDataFile = "k_largest_values_in_bst.tsv")
 
   public static List<Integer> findKLargestInBst(BstNode<Integer> tree, int k) {
-    List<Integer> res = new ArrayList<>();
-    inorder_rev(tree, k, res);
-    return res;
+    List<Integer> result = new ArrayList<>();
+    rev_inorder(tree, result, k);
+    return result;
   }
-  public static void inorder_rev(BstNode<Integer> tree, int k, List<Integer> res) {
-    if (tree == null) {
-      return;
-    }
 
-    inorder_rev(tree.right, k, res);
-    if (res.size() < k) {
-      res.add(tree.getData());
+  private static void rev_inorder(BstNode<Integer> node, List<Integer> res, int k) {
+    if (node == null) {
+      return;
     }
 
     if (res.size() == k) {
       return;
     }
+    rev_inorder(node.right, res, k);
 
-    inorder_rev(tree.left, k, res);
+    if (res.size() < k) {
+      res.add(node.getData());
+      rev_inorder(node.left, res, k);
+    }
   }
 
   @EpiTestComparator

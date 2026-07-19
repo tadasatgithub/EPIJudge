@@ -6,23 +6,55 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 public class LowestCommonAncestorInBst {
 
-  // Input nodes are nonempty and the key at s is less than or equal to that at
-  // b.
   public static BstNode<Integer>
   findLca(BstNode<Integer> tree, BstNode<Integer> s, BstNode<Integer> b) {
 
-    while (tree != null && (tree.getData() < s.getData() || tree.getData() > b.getData())) {
-      while (tree != null && tree.getData() < s.getData()) {
-        tree = tree.getRight();
-      }
-
-      while (tree != null && tree.getData() > b.getData()) {
+    while (tree != null) {
+      if ((tree.getData() > s.getData() && tree.getData() > b.getData())) {
         tree = tree.getLeft();
+      } else if ((tree.getData() < s.getData() && tree.getData() < b.getData())) {
+        tree = tree.getRight();
+      } else {
+        break;
       }
     }
 
     return tree;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Input nodes are nonempty and the key at s is less than or equal to that at
+  // b.
+//  public static BstNode<Integer>
+//  findLca(BstNode<Integer> tree, BstNode<Integer> s, BstNode<Integer> b) {
+//
+//    while (tree != null && (tree.getData() < s.getData() || tree.getData() > b.getData())) {
+//      while (tree != null && tree.getData() < s.getData()) {
+//        tree = tree.getRight();
+//      }
+//
+//      while (tree != null && tree.getData() > b.getData()) {
+//        tree = tree.getLeft();
+//      }
+//    }
+//
+//    return tree;
+//  }
+
+
+
+
 
   @EpiTest(testDataFile = "lowest_common_ancestor_in_bst.tsv")
   public static int lcaWrapper(TimedExecutor executor, BstNode<Integer> tree,

@@ -5,8 +5,25 @@ public class IntSquareRoot {
   @EpiTest(testDataFile = "int_square_root.tsv")
 
   public static int squareRoot(int k) {
-    // TODO - you fill in here.
-    return 0;
+    long l=0, r = 1;
+    int value = 1;
+
+    while ((r * r) < k) {
+      r = r << 1;
+    }
+
+    while (l <= r) {
+      long mid = l + (r-l)/2;
+
+      if (mid*mid <= k) {
+        value = (int) mid;
+        l = mid+1;
+      } else {
+        r = mid-1;
+      }
+    }
+
+    return value;
   }
 
   public static void main(String[] args) {
