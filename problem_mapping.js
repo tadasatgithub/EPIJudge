@@ -190,7 +190,7 @@ problem_mapping = {
                 "total": 204
             },
             "Java: DutchNationalFlag.java": {
-                "passed": 0,
+                "passed": 204,
                 "total": 204
             },
             "Python: dutch_national_flag.py": {
@@ -232,7 +232,7 @@ problem_mapping = {
                 "total": 2004
             },
             "Java: AdvanceByOffsets.java": {
-                "passed": 0,
+                "passed": 2004,
                 "total": 2004
             },
             "Python: advance_by_offsets.py": {
@@ -246,7 +246,7 @@ problem_mapping = {
                 "total": 2003
             },
             "Java: SortedArrayRemoveDups.java": {
-                "passed": 0,
+                "passed": 2003,
                 "total": 2003
             },
             "Python: sorted_array_remove_dups.py": {
@@ -260,7 +260,7 @@ problem_mapping = {
                 "total": 402
             },
             "Java: BuyAndSellStock.java": {
-                "passed": 0,
+                "passed": 402,
                 "total": 402
             },
             "Python: buy_and_sell_stock.py": {
@@ -274,7 +274,7 @@ problem_mapping = {
                 "total": 402
             },
             "Java: BuyAndSellStockTwice.java": {
-                "passed": 0,
+                "passed": 402,
                 "total": 402
             },
             "Python: buy_and_sell_stock_twice.py": {
@@ -1374,7 +1374,7 @@ problem_mapping = {
                 "total": 194
             },
             "Java: SearchRowColSortedMatrix.java": {
-                "passed": 0,
+                "passed": 194,
                 "total": 194
             },
             "Python: search_row_col_sorted_matrix.py": {
@@ -3008,7 +3008,7 @@ problem_mapping = {
                 "total": 1001
             },
             "Java: MaxWaterTrappable.java": {
-                "passed": 0,
+                "passed": 1001,
                 "total": 1001
             },
             "Python: max_water_trappable.py": {

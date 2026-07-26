@@ -7,7 +7,17 @@ public class LargestRectangleUnderSkyline {
   @EpiTest(testDataFile = "largest_rectangle_under_skyline.tsv")
 
   public static int calculateLargestRectangle(List<Integer> heights) {
+    int[] stack = new int[heights.size()+1];
+    int top = -1;
+    stack[++top] = -1;
 
+    for (int i=0; i < heights.size(); i++) {
+        if (top <= 0 || heights.get(stack[top]) < heights.get(i)) {
+          stack[++top] = i;
+        } else {
+
+        }
+    }
     return 0;
   }
 
